@@ -1,6 +1,6 @@
 # CIC-family modelling 2025
 
-The code in this repository accompanies the manuscript "First Generation Tools for the Modeling of Capicua-Family Fusion Oncoprotein-Driven Cancers" by Luck et al (2025). 
+The code in this repository accompanies the manuscript "First Generation Tools for the Modeling of Capicua (CIC) Family Fusion Oncoprotein-Driven Cancers" by Luck et al (2025). 
 These files are not plug-and-play but serve to provide transparency for how we analyzed the data. They may need to be modified for use in different environments or with different data.
 With questions please contact the lead author at cuyler.luck@ucsf.edu and the corresponding author at ross.okimoto@ucsf.edu.
 RNA-seq raw and processed (counts, log2cpm) data files are available at GEO, series [GSE295624](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE295624), [GSE295623](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE295623) and [GSE295625](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE295625) for the April 2023, May 2024, and Feburary 2025 data, respectively.

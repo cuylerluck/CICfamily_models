@@ -5,8 +5,10 @@ These files are not plug-and-play but serve to provide transparency for how we a
 With questions please contact the lead author at cuyler.luck@ucsf.edu and the corresponding author at ross.okimoto@ucsf.edu.
 RNA-seq raw and processed (counts, log2cpm) data files are available at GEO, series [GSE295624](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE295624), [GSE295623](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE295623) and [GSE295625](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE295625) for the April 2023, May 2024, and Feburary 2025 data, respectively.
 
-There are two main groups of analyses that the code is divided into, with the purpose of each file described below:
+There are two main groups of analyses that the code is divided into, with the purpose of each file described below.
+These files are also separated out based on whether they were updated during revision. Those from the original preprint that were replaced for revision are preserved at the bottom for the sake of transparency.
 
+# Scripts used for the final paper after revision
 ## RNA-seq processing and analysis
 
 ***documentation_ATXN1_DUX4_Feb2025.txt*** : a text file describing processing of Feb2025 FASTQ files with STAR (and other tools) as performed locally on a MacBook Pro and on Wynton, UCSF's high-performance computing cluster.
@@ -15,13 +17,25 @@ There are two main groups of analyses that the code is divided into, with the pu
 
 ***documentation_CICNUTM1_April2023.txt*** : same as above, but for April2023 FASTQ files.
 
-***293T_ATXN1_DUX4_Feb2025.R*** : R script detailing differential expression analysis of Feb2025 RNA-seq data and used for plotting figures.
+***patient_DUX4_vs_NUTM1_documentation.txt*** : same as above but for processing of patient CIC::DUX4 and CIC::NUTM1 data from [EGAD00001003121](https://ega-archive.org/datasets/EGAD00001003121)
 
-***293T_delE_DE_May2024.R*** : R script detailing differential expression analysis of May2024 RNA-seq data and used for plotting figures.
+***293T_ATXN1_DUX4_Feb2025_revisions.R*** : Updated during revisions, R script detailing differential expression analysis of Feb2025 RNA-seq data and used for plotting figures.
+
+***293T_delE_DE_May2024_revisions.R*** : Updated during revisions, R script detailing differential expression analysis of May2024 RNA-seq data and used for plotting figures.
 
 ***293T_CICNUTM1_DE_April2023.R*** : R script detailing differential expression analysis of April2023 RNA-seq data and used for plotting figures.
+
+***patient_NUTM1_DUX4_de_Sep2025_revisions.R***: Added during revisions, R script detailing differential expression analysis of patient CIC::DUX4 and CIC::NUTM1 data from [EGAD00001003121](https://ega-archive.org/datasets/EGAD00001003121) and used for plotting figures.
 
 
 ## Schematic generation in Fig 1
 
 ***fig1_plasmid_schema.R*** : an R script to generate the pieces of the schematic shown in Figure 1.
+
+
+
+# Scripts used for the preprint prior to revision
+
+***293T_ATXN1_DUX4_Feb2025.R*** : R script detailing differential expression analysis of Feb2025 RNA-seq data and used for plotting figures.
+
+***293T_delE_DE_May2024.R*** : R script detailing differential expression analysis of May2024 RNA-seq data and used for plotting figures.

@@ -1,0 +1,73 @@
+This document describes the code used to do the upstream processing for the CIC-DUX4 vs. CIC-NUTM1 patient bulk RNA-seq comparison using data from EGAD00001003121 (European Genomme-Phenome Archive) from Watson et al. J Pathol 2018 (PMID: 29431183).
+
+This is not meant to be plug-and-play, but rather a starting point for your own analyses. Processing was performed on the PHI compliant UCSF compute cluster (Wynton), with bash scripts written in the proper format accepted by our job scheduler. Code blocks below omit the job scheduling information for brevity.
+
+This does not include the code necessary to download the raw .fastq files from EGA, but the documentation for this is straightforward and can be done using pyEGA3 (https://github.com/EGA-archive/ega-download-client) so long as you have the required permissions for your dataset.  
+
+Each section contains a header describing the block, followed by the code itself, in this format:
+
+----------------------
+Header 
+---
+Code block
+---
+----------------------
+
+Tools used:
+STAR (2.7.10b)
+samtools (1.16.1)
+
+
+Contact cuyler.luck@ucsf.edu or ross.okimoto@ucsf.edu with questions.
+
+
+
+----------------------
+We first need to download a reference genome in FASTA format and genome annotation file in GTF format from ENSEMBL. Here we downloaded GRCh38.p13, or release 108, from the ENSEMBL FTP server. We download these using wget and expand the compressed files using gzip.
+---
+wget https://ftp.ensembl.org/pub/release-108/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz
+
+wget https://ftp.ensembl.org/pub/release-108/gtf/homo_sapiens/Homo_sapiens.GRCh38.108.gtf.gz
+
+gzip -d Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz
+
+gzip -d Homo_sapiens.GRCh38.108.gtf.gz
+---
+----------------------
+
+
+----------------------
+We next need to create an index for STAR to use based on the reference genome FASTA and GTF files. We chose to use --sjdbOverhang 149 because we had some conditions with reads of length 100bp and some with reads of length 150bp, and the recommendation from the STAR manual is to use max(ReadLength)-1. 
+---
+STAR --runThreadN "${NSLOTS:-1}" --runMode genomeGenerate --genomeDir ./star_index --genomeFastaFiles ./Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa --sjdbGTFfile ./Homo_sapiens.GRCh38.108.gtf --sjdbOverhang 149
+---
+----------------------
+
+
+----------------------
+Next, we can perform STAR alignment of all samples, one at a time. After generating an alignment as a .sam file, we converted to a .bam file using samtools and then deleted the .sam file due to disk space limitations.
+We used --quantMode GeneCounts to extract gene counts at the same time as alignment was performed.
+---
+for sample in EWN1069T EWN1072T INI42 RNA003_16_008 RNA012_16_073 RNA012_16_074 SARC013 SARC038 SARC051 SARC084 SARC101
+do
+	STAR --runThreadN "${NSLOTS:-1}" --genomeDir ./star_index --readFilesIn ./raw_data/$sample.R1.fastq.gz ./raw_data/$sample.R2.fastq.gz --readFilesCommand zcat --outFileNamePrefix ./alignments/star/$sample --quantMode GeneCounts
+	rm ./alignments/star/*.progress.out
+	samtools sort -@ "${NSLOTS:-1}" -o ./alignments/star/$sample.bam ./alignments/star/*.sam
+	rm ./alignments/star/*.sam
+done
+---
+----------------------
+
+
+----------------------
+We also indexed .bam files using samtools for visualization in IGV.
+---
+for sample in EWN1069T EWN1072T INI42 RNA003_16_008 RNA012_16_073 RNA012_16_074 SARC013 SARC038 SARC051 SARC084 SARC101
+do
+	samtools index -b -@ "${NSLOTS:-1}" alignments/star/$sample.bam
+done
+---
+----------------------
+
+
+We then moved STAR output and .bam/.bai files to a local laptop for differential expression analysis using R and data visualization using IGV.

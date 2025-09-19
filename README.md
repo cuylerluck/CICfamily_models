@@ -9,6 +9,8 @@ The purpose of each file is described below.
 
 These files are also separated out based on whether they were updated during revision. The prior versions of those from the original preprint that were updated during revision are preserved at the bottom for the sake of transparency.
 
+Fully annotated Genbank or Snapgene files are also available for the coding sequences of the five CIC-family fusions modeled in this study. Please see the appropriate folders and files within.
+
 # Scripts used for the final paper after revision
 ## RNA-seq processing and analysis
 
